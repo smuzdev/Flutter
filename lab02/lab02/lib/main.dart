@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'Game.dart';
 
 void main() {
   runApp(MyApp());
+  Game game = new Game("Counter-Strike", "Shooter", 2012);
+  game.printName();
+  game.printGenre();
+  game.printYear();
+
+  game.play();
+  game.win();
+  game.lose();
+  game.quit();
 }
 
 class MyApp extends StatelessWidget {
@@ -98,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this MANY times:',
+              'You have pushed the button this many times:',
             ),
             Text(
               '$_counter',
