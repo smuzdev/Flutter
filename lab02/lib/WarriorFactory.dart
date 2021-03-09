@@ -34,6 +34,11 @@ abstract class WarriorFactory {
     _weapon = "no weapon";
   }
 
+  WarriorFactory.mixin(String name, String guild) {
+    _name = name;
+    _guild = guild;
+  }
+
   //endregion
 
   // Abstract methods

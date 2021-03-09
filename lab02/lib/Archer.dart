@@ -1,12 +1,16 @@
 import 'IComputerGame.dart';
 import 'WarriorFactory.dart';
 
-class Archer extends WarriorFactory implements IComputerGame {
+class Archer extends WarriorFactory with Member implements IComputerGame {
   Archer(name, guild, weapon) : super(name, guild, weapon);
 
   Archer.undefined() : super.undefined();
 
   Archer.baseWarrior(name) : super.baseWarrior(name);
+
+  Archer.mixin(name, guild) : super.mixin(name, guild) {
+    guildName = guild;
+  }
 
   @override
   void fight() {
@@ -53,5 +57,13 @@ class Archer extends WarriorFactory implements IComputerGame {
         "\t" +
         "Weapon: " +
         weapon.toString();
+  }
+}
+
+mixin Member {
+  String guildName = "";
+
+  void consist() {
+    print("Consists in '$guildName'");
   }
 }

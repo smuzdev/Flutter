@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lab02/WarriorFactory.dart';
 import 'Archer.dart';
+import 'Phone.dart';
 
 void main() {
   runApp(MyApp());
+
+  //Laboratory work #2
 
   //region Constructors
   print("GENERAL CONSTRUCTOR");
@@ -169,6 +175,129 @@ void main() {
     print("Finally block");
   }
   print("Completion");
+
+  //endregion
+
+  //Laboratory work #3
+
+  //region Mixin
+  print("MIXIN");
+
+  var anton = Archer.mixin("Anton", "Binary Precision");
+  anton.printName();
+  anton.consist();
+  //endregion
+
+  //region Comparable
+  print("COMPARABLE");
+
+  Phone('Samsung Galaxy S21', 6.2).compareTo(Phone('Apple iPhone 12', 6.1));
+  Phone('Apple iPhone SE', 4.7).compareTo(Phone('Apple iPhone 12', 6.1));
+  Phone('Samsung Galaxy S21', 6.2).compareTo(Phone('Samsung Galaxy S20', 6.2));
+  //endregion
+
+  //region Iterable
+  print("ITERABLE");
+
+  var phones = PhonesCollection();
+  phones.phonesCollection.add(PhonesCollection());
+  phones.phonesCollection.add(PhonesCollection());
+  phones.phonesCollection.add(PhonesCollection());
+  phones.phonesCollection.add(PhonesCollection());
+
+  print(phones.isEmpty);
+  print(phones.length);
+  //endregion
+
+  //region Iterator
+  print("ITERATOR");
+
+  var numbers = NumbersIterator();
+  while (numbers.moveNext()) {
+    print(numbers.current);
+  }
+  //endregion
+
+  //region Json
+  print("JSON");
+
+  var phone = Phone('Google Pixel 4a', 5.8);
+  print(jsonEncode(phone.toJson()));
+  //endregion
+
+  //region Async Method
+  Future<String> getData() async {
+    await Future.delayed(Duration(seconds: 5));
+    print("Fetched Data");
+    return "Test data";
+  }
+  //endregion
+
+  //region Future
+  /*print("FUTURE");
+
+  Future<double> future1 = Future(() {
+    return 23.5;    // return double
+  });
+
+  future1.then((value){
+    print("Из Future1 получено значение: $value");
+  });
+
+  Future<String> future2 = Future.delayed(Duration(seconds: 3), () => "Hello Future"); //return delayed string
+
+  future2.then((value){
+    print("Из Future2 получено значение: $value");
+  });*/
+  //endregion
+
+  //region Streams
+
+  //region Single subscription
+  /*print("SINGLE");
+
+  print("Creating a sample stream...");
+  Stream<String> stream = new Stream.fromFuture(getData());
+  print("Created the stream");
+
+  stream.listen((data) {
+    print("DataReceived: "+ data);
+  }, onDone: () {
+    print("Task done");
+  }, onError: (error) {
+    print("Error");
+  });
+  print("Code controller is here");*/
+
+  //endregion
+
+  //region Broadcast stream
+  /*print('BROADCAST');
+
+  StreamController<String> streamController = new StreamController.broadcast();
+  print("Creating a StreamController...");
+
+  //First subscription
+  streamController.stream.listen((data) {
+    print("DataReceived 1: " + data);
+  }, onDone: () {
+    print("Task 1 done");
+  }, onError: (error) {
+    print("Error 1");
+  });
+
+  //Second subscription
+  streamController.stream.listen((data) {
+    print("DataReceived 2 : " + data);
+  }, onDone: () {
+    print("Task 2 done");
+  }, onError: (error) {
+    print("Error 2");
+  });
+
+  streamController.add("This a test data");
+  print("Code controller is here");*/
+  //endregion
 
   //endregion
 }
