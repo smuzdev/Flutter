@@ -13,7 +13,7 @@ class AddToCart extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: kDefaultPadding,
         right: kDefaultPadding,
-        top: kDefaultPadding,
+        top: kDefaultPadding * 2,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
