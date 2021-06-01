@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lab07_08/presentation/file_system.dart';
-import 'package:lab07_08/presentation/hive.dart';
+import 'package:lab07_08/presentation/hive_db.dart';
 import 'package:lab07_08/presentation/shared_preferences.dart';
 import 'package:lab07_08/presentation/sqflite.dart';
 
@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
     SQFLite(),
     SharedPreferences(),
     FileSystem(),
-    Hive(),
+    HiveDatabase(),
   ];
 
   void _onItemTapped(int index) {

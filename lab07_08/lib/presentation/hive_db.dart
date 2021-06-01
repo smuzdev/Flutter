@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:lab07_08/model/computer_game.dart';
+import 'package:lab07_08/utils/hv_helper.dart';
 import 'package:uuid/uuid.dart';
 
-import '../model/computer_game.dart';
-import '../utils/db_helper.dart';
-
-class SQFLite extends StatefulWidget {
-  const SQFLite({Key key}) : super(key: key);
+class HiveDatabase extends StatefulWidget {
+  const HiveDatabase({Key key}) : super(key: key);
 
   @override
-  _SQFLiteState createState() => _SQFLiteState();
+  _HiveDatabaseState createState() => _HiveDatabaseState();
 }
 
-class _SQFLiteState extends State<SQFLite> {
+class _HiveDatabaseState extends State<HiveDatabase> {
+  final uuid = Uuid();
   Future<List<ComputerGame>> computerGames;
   TextEditingController nameController = TextEditingController();
   TextEditingController genreController = TextEditingController();
@@ -20,22 +21,21 @@ class _SQFLiteState extends State<SQFLite> {
   String genre;
   String year;
   String currentId;
-  final uuid = Uuid();
+  var hive;
 
   final formKey = new GlobalKey<FormState>();
-  var dbHelper;
   bool isUpdating;
 
   void initState() {
     super.initState();
-    dbHelper = DBHelper();
+    hive = HVHelper();
     isUpdating = false;
     refreshList();
   }
 
   refreshList() {
     setState(() {
-      computerGames = dbHelper.getComputerGames();
+      computerGames = hive.readAll();
     });
   }
 
@@ -48,16 +48,9 @@ class _SQFLiteState extends State<SQFLite> {
   validate() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      if (isUpdating) {
-        ComputerGame computerGame = ComputerGame(currentId, name, genre, int.parse(year));
-        dbHelper.update(computerGame);
-        setState(() {
-          isUpdating = false;
-        });
-      } else {
-        ComputerGame computerGame = ComputerGame(uuid.v4(), name, genre, int.parse(year));
-        dbHelper.save(computerGame);
-      }
+      ComputerGame computerGame =
+          ComputerGame(uuid.v4(), name, genre, int.parse(year));
+      hive.insert(computerGame);
       clearFields();
       refreshList();
     }
@@ -157,39 +150,18 @@ class _SQFLiteState extends State<SQFLite> {
                   cells: [
                     DataCell(
                       Text(computerGame.name),
-                      onTap: () {
-                        setState(() {
-                          isUpdating = true;
-                          currentId = computerGame.id;
-                        });
-                        nameController.text = computerGame.name;
-                        genreController.text = computerGame.genre;
-                        yearController.text = computerGame.year.toString();
-                      },
                     ),
                     DataCell(
                       Text(computerGame.genre),
-                      onTap: () {
-                        setState(() {
-                          isUpdating = true;
-                          currentId = computerGame.id;
-                        });
-                      },
                     ),
                     DataCell(
                       Text(computerGame.year.toString()),
-                      onTap: () {
-                        setState(() {
-                          isUpdating = true;
-                          currentId = computerGame.id;
-                        });
-                      },
                     ),
                     DataCell(
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          dbHelper.delete(computerGame.id);
+                          hive.delete(computerGame.id);
                           refreshList();
                         },
                       ),
@@ -223,7 +195,7 @@ class _SQFLiteState extends State<SQFLite> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF00A693),
-        title: Text('SQFLite'),
+        title: Text('Hive'),
         centerTitle: true,
       ),
       body: Container(
@@ -238,5 +210,11 @@ class _SQFLiteState extends State<SQFLite> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }

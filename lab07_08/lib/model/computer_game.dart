@@ -1,7 +1,15 @@
-class ComputerGame {
-  int id;
+import 'package:hive/hive.dart';
+//part 'computer_game.g.dart';
+
+@HiveType(typeId: 0)
+class ComputerGame extends HiveObject {
+  @HiveField(0)
+  String id;
+  @HiveField(1)
   String name;
+  @HiveField(2)
   String genre;
+  @HiveField(3)
   int year;
 
   ComputerGame(this.id, this.name, this.genre, this.year);
@@ -22,4 +30,5 @@ class ComputerGame {
     genre = map['genre'];
     year = map['year'];
   }
+
 }

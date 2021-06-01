@@ -32,12 +32,12 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db
-        .execute('CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $NAME TEXT, $GENRE TEXT, $YEAR INTEGER)');
+        .execute('CREATE TABLE $TABLE ($ID TEXT PRIMARY KEY, $NAME TEXT, $GENRE TEXT, $YEAR INTEGER)');
   }
 
   Future<ComputerGame> save(ComputerGame computerGame) async {
     var dbClient = await db;
-    computerGame.id = await dbClient.insert(TABLE, computerGame.toMap());
+    computerGame.id = (await dbClient.insert(TABLE, computerGame.toMap())) as String;
     return computerGame;
   }
 
@@ -54,7 +54,7 @@ class DBHelper {
     return computerGames;
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(String id) async {
     var dbClient = await db;
     return await dbClient.delete(TABLE, where: '$ID = ?', whereArgs: [id]);
   }
