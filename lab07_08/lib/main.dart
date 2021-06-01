@@ -3,11 +3,13 @@ import 'package:hive/hive.dart';
 import 'package:lab07_08/presentation/home.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'model/computer_game.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getDatabasesPath();
   Hive.init(appDocumentDir);
-  //Hive.registerAdapter(ComputerGameAdapter());
+  Hive.registerAdapter(ComputerGameAdapter());
   runApp(MyApp());
 }
 

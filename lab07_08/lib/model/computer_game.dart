@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-//part 'computer_game.g.dart';
+part 'computer_game.g.dart';
 
 @HiveType(typeId: 0)
 class ComputerGame extends HiveObject {
